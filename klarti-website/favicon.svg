@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <g fill="black">
     <!-- Vertical bar of plus -->
-    <rect x="40" y="10" width="20" height="80"/>
+    <rect x="45" y="20" width="10" height="60"/>
     <!-- Horizontal bar of plus -->
-    <rect x="10" y="40" width="80" height="20"/>
+    <rect x="20" y="45" width="60" height="10"/>
   </g>
 </svg>
