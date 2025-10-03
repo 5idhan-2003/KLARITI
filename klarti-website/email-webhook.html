@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Notification Setup for KLARTI+</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+        .method { border: 1px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .method h3 { color: #333; margin-top: 0; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+        .recommended { border-color: #28a745; background-color: #f8fff9; }
+        .steps { background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Email Notification Solutions for KLARTI+</h1>
+
+    <div class="method recommended">
+        <h3>🚀 Method 1: EmailJS (Recommended - Free & Easy)</h3>
+        <p><strong>Why this doesn't work currently:</strong> Browser security blocks mailto links from JavaScript</p>
+
+        <div class="steps">
+            <h4>Setup Steps:</h4>
+            <ol>
+                <li>Go to <strong>https://www.emailjs.com/</strong></li>
+                <li>Create free account</li>
+                <li>Add email service (Gmail/Outlook)</li>
+                <li>Create email template</li>
+                <li>Get Service ID, Template ID, and User ID</li>
+            </ol>
+        </div>
+
+        <p><strong>Benefits:</strong> Free, reliable, no server needed, works from browser</p>
+    </div>
+
+    <div class="method">
+        <h3>📧 Method 2: Supabase Edge Functions</h3>
+        <p>Create a serverless function in Supabase to send emails</p>
+
+        <div class="steps">
+            <h4>Setup Steps:</h4>
+            <ol>
+                <li>Enable Edge Functions in Supabase</li>
+                <li>Create function to send emails via SendGrid/Resend</li>
+                <li>Deploy function</li>
+                <li>Call function from website</li>
+            </ol>
+        </div>
+
+        <p><strong>Benefits:</strong> Integrated with Supabase, server-side, very reliable</p>
+    </div>
+
+    <div class="method">
+        <h3>🔔 Method 3: Webhook + Zapier (No Code)</h3>
+        <p>Use Zapier to send emails when new records are added to Supabase</p>
+
+        <div class="steps">
+            <h4>Setup Steps:</h4>
+            <ol>
+                <li>Create Zapier account</li>
+                <li>Connect Supabase as trigger</li>
+                <li>Connect Gmail/Email as action</li>
+                <li>Set up email template</li>
+            </ol>
+        </div>
+
+        <p><strong>Benefits:</strong> No coding required, automatic, reliable</p>
+    </div>
+
+    <div class="method">
+        <h3>📊 Method 4: Check Supabase Dashboard</h3>
+        <p><strong>Current Working Solution:</strong> All form submissions are saved to your Supabase database</p>
+
+        <div class="steps">
+            <h4>To View Submissions:</h4>
+            <ol>
+                <li>Go to your <strong>Supabase Dashboard</strong></li>
+                <li>Navigate to <strong>Table Editor</strong></li>
+                <li>Select <strong>demo_requests</strong> table</li>
+                <li>View all submissions with timestamps</li>
+            </ol>
+        </div>
+
+        <p><strong>Benefits:</strong> Already working, shows all data, permanent storage</p>
+    </div>
+
+    <h2>🔧 Quick Fix Options:</h2>
+
+    <div class="method">
+        <h4>Option A: EmailJS Integration (5 minutes)</h4>
+        <p>I can integrate EmailJS for instant email notifications</p>
+    </div>
+
+    <div class="method">
+        <h4>Option B: Remove Email Redirect</h4>
+        <p>Remove the mailto functionality and rely on Supabase dashboard checking</p>
+    </div>
+
+    <div class="method">
+        <h4>Option C: Browser Notification</h4>
+        <p>Show browser notification instead of email when form is submitted</p>
+    </div>
+
+    <h3>💡 Current Status:</h3>
+    <ul>
+        <li>✅ Form submissions are working</li>
+        <li>✅ Data is saved to Supabase database</li>
+        <li>❌ Email notifications are causing page redirects</li>
+        <li>❌ No actual emails being sent</li>
+    </ul>
+
+    <p><strong>Which solution would you prefer?</strong> EmailJS is the fastest to implement!</p>
+</body>
+</html>

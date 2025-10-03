@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Connection Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>KLARTI+ Supabase Connection Test</h1>
+
+    <div id="results"></div>
+
+    <button onclick="testConnection()">Test Supabase Connection</button>
+    <button onclick="testTableExists()">Test Table Exists</button>
+    <button onclick="testInsert()">Test Insert Data</button>
+    <button onclick="clearResults()">Clear Results</button>
+
+    <h3>Instructions:</h3>
+    <ol>
+        <li><strong>First:</strong> Make sure you've run the SQL script in Supabase</li>
+        <li><strong>Click "Test Supabase Connection"</strong> - should show successful connection</li>
+        <li><strong>Click "Test Table Exists"</strong> - should confirm demo_requests table exists</li>
+        <li><strong>Click "Test Insert Data"</strong> - should successfully insert test data</li>
+    </ol>
+
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Configuration -->
+    <script src="config.js"></script>
+
+    <script>
+        let supabase;
+        const resultsDiv = document.getElementById('results');
+
+        // Initialize Supabase
+        if (window.KLARTI_CONFIG) {
+            supabase = window.supabase.createClient(
+                window.KLARTI_CONFIG.SUPABASE.URL,
+                window.KLARTI_CONFIG.SUPABASE.ANON_KEY
+            );
+            addResult('Supabase client initialized', 'info');
+        } else {
+            addResult('❌ Configuration not loaded!', 'error');
+        }
+
+        function addResult(message, type) {
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.innerHTML = `<strong>[${new Date().toLocaleTimeString()}]</strong> ${message}`;
+            resultsDiv.appendChild(div);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        async function testConnection() {
+            try {
+                addResult('Testing Supabase connection...', 'info');
+
+                // Try to connect to Supabase
+                const { data, error } = await supabase.from('demo_requests').select('count').limit(1);
+
+                if (error) {
+                    addResult(`❌ Connection failed: ${error.message}`, 'error');
+                    console.error('Connection error:', error);
+                } else {
+                    addResult('✅ Successfully connected to Supabase!', 'success');
+                }
+            } catch (error) {
+                addResult(`❌ Connection test failed: ${error.message}`, 'error');
+                console.error('Test error:', error);
+            }
+        }
+
+        async function testTableExists() {
+            try {
+                addResult('Testing if demo_requests table exists...', 'info');
+
+                const { data, error } = await supabase
+                    .from('demo_requests')
+                    .select('id')
+                    .limit(1);
+
+                if (error) {
+                    if (error.message.includes('relation "demo_requests" does not exist')) {
+                        addResult('❌ Table "demo_requests" does not exist. Please run the SQL script in Supabase.', 'error');
+                    } else {
+                        addResult(`❌ Table test failed: ${error.message}`, 'error');
+                    }
+                } else {
+                    addResult('✅ Table "demo_requests" exists and is accessible!', 'success');
+                }
+            } catch (error) {
+                addResult(`❌ Table test error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testInsert() {
+            try {
+                addResult('Testing data insertion...', 'info');
+
+                const testData = {
+                    institution_name: 'Test Institution',
+                    contact_email: 'test@example.com',
+                    institution_type: 'university',
+                    message: 'This is a test submission from the connection test.'
+                };
+
+                const { data, error } = await supabase
+                    .from('demo_requests')
+                    .insert([testData])
+                    .select();
+
+                if (error) {
+                    addResult(`❌ Insert failed: ${error.message}`, 'error');
+                    console.error('Insert error:', error);
+                } else {
+                    addResult('✅ Test data inserted successfully!', 'success');
+                    addResult(`Inserted record ID: ${data[0].id}`, 'info');
+                }
+            } catch (error) {
+                addResult(`❌ Insert test error: ${error.message}`, 'error');
+            }
+        }
+
+        function clearResults() {
+            resultsDiv.innerHTML = '';
+        }
+
+        // Auto-test connection on load
+        window.addEventListener('load', () => {
+            setTimeout(testConnection, 1000);
+        });
+    </script>
+</body>
+</html>
